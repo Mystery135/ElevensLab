@@ -1,35 +1,40 @@
 import java.util.*;
 
 public class Utils {
-public static String getCardSymbol(Card card){
-    Map<Integer, String > values = ElevensBoard.VALUE_TO_NAME;
-    StringBuilder symbol = new StringBuilder();
-    if (values.containsKey(card.pointValue())){
-        symbol.append(values.get(card.pointValue()));
-    }else if (card.pointValue() == 0){
-      symbol.append(" ");
-    } else{
-        symbol.append(card.pointValue());
-    }
- switch (card.suit().toLowerCase()){
-     case "clubs":
-         symbol.append("♣");
-         break;
-     case "spades":
-         symbol.append("♠");
-         break;
-     case "hearts":
-         symbol.append("♥");
-         break;
-     case "diamonds":
-         symbol.append("♦");
-     case "":
-         symbol.append(" ");
- }
+    public static String getCardSymbol(Card card){
+        Map<Integer, String > values = ElevensBoard.VALUE_TO_NAME;
+        StringBuilder symbol = new StringBuilder();
+        if (card == null){
+            symbol.append("  ");
+            return symbol.toString();
+        }
+        if (values.containsKey(card.pointValue())){
+            symbol.append(values.get(card.pointValue()));
+        }else if (card.pointValue() == 0){
+            symbol.append(" ");
+        } else{
+            symbol.append(card.pointValue());
+        }
+        switch (card.suit().toLowerCase()){
+            case "clubs":
+                symbol.append("C");
+                break;
+            case "spades":
+                symbol.append("S");
+                break;
+            case "hearts":
+                symbol.append("H");
+                break;
+            case "diamonds":
+                symbol.append("D");
+                break;
+            case "":
+                symbol.append(" ");
+        }
 
 //return card.
-return symbol.toString();
-}
+        return symbol.toString();
+    }
     public static int getInt(Scanner scanner, int lowerBound, int upperBound) {//Gets an int higher than the lowerbound from the user
         while (true) {
             if (scanner.hasNextInt()) {
@@ -45,29 +50,23 @@ return symbol.toString();
     public static String formatText(String s){return s.replaceAll("\\s", "").toUpperCase();}
 
     public static ArrayList<Integer> getInts(Scanner scanner, int lowerBound, int upperBound) {//Gets an int higher than the lowerbound from the user
+            String input = scanner.nextLine();
+            ArrayList<String> stringInts = new ArrayList<>(List.of((input.split(","))));
+            ArrayList<Integer> ints = new ArrayList<>();
+
+            for (String str : stringInts){
+                str = Utils.formatText(str);
                 try {
-                    String input = scanner.nextLine();
-                    ArrayList<String> stringInts = new ArrayList<>(List.of((input.split(","))));
-                    ArrayList<Integer> ints = new ArrayList<>();
-
-                    for (String str : stringInts){
-                        str = Utils.formatText(str);
-                        int i = Integer.parseInt(str);
-                        if (i > lowerBound && i < upperBound) {
-                            ints.add(Integer.parseInt(str));
-                        }else{
-                            throw new Exception();
-                        }
-
+                    int i = Integer.parseInt(str);
+                    if (i > lowerBound && i < upperBound) {
+                        ints.add(Integer.parseInt(str));
                     }
-                    return ints;
-
-                }catch (Exception e){
+                }catch (NumberFormatException e) {
                     System.out.println("Input ints above " + lowerBound + " and below " + upperBound + " separated by a comma! (ex. 1, 5)");
-                    scanner.nextLine();
-
+                    getInts(scanner, lowerBound, upperBound);
                 }
-return null;
-}
+            }
+            return ints;
+    }
 
 }

@@ -37,11 +37,22 @@ public class ElevensBoard {
         if (cards.size() > 4 || cards.size() < 2){
             return false;
         }
-        cardsInPlay[cards.get(0)-1] = new Card(0, "");
-        cardsInPlay[cards.get(1)-1] = new Card(0, "");
 
-        if (cards.size() == 3){
-            cardsInPlay[cards.get(2)-1] = new Card(0, "");
+        if (cards.size() == 2) {
+            if (cardsInPlay[cards.get(0) - 1].pointValue() + cardsInPlay[cards.get(1) - 1].pointValue() == 11) {
+                cardsInPlay[cards.get(0) - 1] = deck.deal();
+                cardsInPlay[cards.get(1) - 1] = deck.deal();
+            } else {
+                return false;
+            }
+        }else if (cards.size() == 3){
+            if (cardsInPlay[cards.get(0) - 1].pointValue() + cardsInPlay[cards.get(1) - 1].pointValue() + cardsInPlay[cards.get(2) - 1].pointValue() == 11) {
+                cardsInPlay[cards.get(0) - 1] = deck.deal();
+                cardsInPlay[cards.get(1) - 1] = deck.deal();
+                cardsInPlay[cards.get(2) - 1] = deck.deal();
+            }else{
+                return false;
+            }
         }
         return true;
     }
@@ -55,8 +66,37 @@ public class ElevensBoard {
         return false;
     }
     public boolean anotherPlayIsPossible() {
-        /* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+        if (hasPairSum11(cardsInPlay)){
+            return true;
+        }
+        if (hasJQK(cardsInPlay)){
+            return true;
+        }
         return false;
+    }
+    public boolean hasPairSum11(Card[] cards){
+        for (int i = 0; i<cards.length; i++){
+            if (cards[i].pointValue() + cards[i+1].pointValue() == 11){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean hasJQK(Card[] cards){
+        boolean J = false;
+        boolean Q = false;
+        boolean K = false;
+
+        for (int i = 0; i<cards.length; i++){
+            if (cards[i].pointValue() == 21){
+                J = true;
+            }         if (cards[i].pointValue() == 22){
+                Q = true;
+            }         if (cards[i].pointValue() == 22){
+                K = true;
+            }
+        }
+        return J && Q && K;
     }
     public boolean isLegal(List<Integer> selectedCards) {
         /* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */

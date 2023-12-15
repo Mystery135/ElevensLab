@@ -57,6 +57,9 @@ return finalCards;
 
     }
     public Card deal(){
+        if (isEmpty()){
+            return null;
+        }
         discardedCards.add(cards.get(cards.size()-1));
         cards.remove(cards.size()-1);
         return discardedCards.get(discardedCards.size()-1);
