@@ -21,36 +21,19 @@ public class Deck {
             cards.set(k, tmp);
         }
     }
-//    public ArrayList<Card> perfectShuffle(){
-//        ArrayList<Card> shuffled = new ArrayList<>();
-//        int deckSize = cards.size();
-//        for (int i = 0; i<deckSize/2; i++){
-//           shuffled.add(cards.get(0));
-//           cards.remove(cards.get(0));
-//        }
-////        method that merges two array lists, alternating elements from both array lists java
-//        System.out.println("shuffledsize : " + shuffled.size());
-//        System.out.println("cardsize : " + cards.size());
-//        System.out.println("shuffled: " + shuffled);
-//        System.out.println("cards: " + cards);
-//
-//        int x = 0;
-//        for (int i = 0; i<cards.size(); i++){
-//            x+=2;
-//          shuffled.add(x, cards.get(0));
-//            System.out.println("addedCard: " + cards.get(0));
-//          cards.remove(0);
-//
-//
-//
-//
-////                if (i % 2 == 1){
-////                    shuffled.add(i, cards.get((cards.size()-1)));
-////                    cards.remove(0);
-////                }
-//        }
-//return shuffled;
-//    }
+    public ArrayList<Card> perfectShuffle(){
+        ArrayList<Card> shuffled = new ArrayList<>();
+        int deckSize = cards.size();
+        for (int i = 0; i<deckSize/2; i++){
+           shuffled.add(cards.get(0));
+           cards.remove(cards.get(0));
+        }
+        for (int i = 0; i<shuffled.size(); i+=2){
+          shuffled.add(i, cards.get(0));
+          cards.remove(0);
+        }
+return shuffled;
+    }
     public ArrayList<Card> perfectShuffle2(){
         ArrayList<Card> otherDeck = new ArrayList<>();
         ArrayList<Card> finalCards  = new ArrayList<>();

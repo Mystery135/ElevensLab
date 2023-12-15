@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 public class ElevensLab {
     public static void main(String[] args) {
@@ -16,22 +17,21 @@ public class ElevensLab {
 
 
 
+
     Deck deck =new Deck(cards);
-//        System.out.println(deck);
-//        System.out.println(deck.size());
 
-//        System.out.println(deck);
         ElevensBoard game = new ElevensBoard(deck);
-        System.out.println(game);
+        Scanner scanner = new Scanner(System.in);
+        while (!game.gameIsWon()){
+            System.out.println(game);
+            System.out.println("What cards do you want to remove? Separate the indexes with a comma.");
+            if (!game.processMove(Utils.getInts(scanner, 0, 10))){
+                System.out.println("Error! Try again!");
+                continue;
+            }
 
 
-//        ArrayList<Card> perf = deck.perfectShuffle2();
-//        System.out.println(perf);
-//        System.out.println(perf.size());
-
-
-
-
-
+        }
+        System.out.println("You WON!");
     }
 }
