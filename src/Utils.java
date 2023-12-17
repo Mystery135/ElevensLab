@@ -17,16 +17,16 @@ public class Utils {
         }
         switch (card.suit().toLowerCase()){
             case "clubs":
-                symbol.append("C");
+                symbol.append("♣");
                 break;
             case "spades":
-                symbol.append("S");
+                symbol.append("♠");
                 break;
             case "hearts":
-                symbol.append("H");
+                symbol.append("❤");
                 break;
             case "diamonds":
-                symbol.append("D");
+                symbol.append("♦");
                 break;
             case "":
                 symbol.append(" ");
