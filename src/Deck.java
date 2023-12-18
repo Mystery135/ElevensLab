@@ -13,48 +13,48 @@ public class Deck {
         return cards.toString();
     }
 
-    public void shuffle() {
-        for (int k = cards.size() - 1; k >= 0; k--) {
-            int r = (int) (Math.random() * k);
-            Card tmp = cards.get(r);
-            cards.set(r, cards.get(k));
-            cards.set(k, tmp);
-        }
-    }
-    public ArrayList<Card> perfectShuffle(){
+//    public void shuffle() {
+//        for (int k = cards.size() - 1; k >= 0; k--) {
+//            int r = (int) (Math.random() * k);
+//            Card tmp = cards.get(r);
+//            cards.set(r, cards.get(k));
+//            cards.set(k, tmp);
+//        }
+//    }
+    public void perfectShuffle(){
         ArrayList<Card> shuffled = new ArrayList<>();
         int deckSize = cards.size();
         for (int i = 0; i<deckSize/2; i++){
-           shuffled.add(cards.get(0));
-           cards.remove(cards.get(0));
+            shuffled.add(cards.get(0));
+            cards.remove(cards.get(0));
         }
-        for (int i = 0; i<shuffled.size(); i+=2){
-          shuffled.add(i, cards.get(0));
-          cards.remove(0);
+        int shuffledSize = shuffled.size();
+        int x = 0;
+        for (int i = 0; i<shuffledSize; i++){
+            cards.add(x, shuffled.get(0));
+            shuffled.remove(0);
+            x+=2;
         }
-return shuffled;
     }
-    public ArrayList<Card> perfectShuffle2(){
-        ArrayList<Card> otherDeck = new ArrayList<>();
-        ArrayList<Card> finalCards  = new ArrayList<>();
+    public void selectionShuffle(){
+        ArrayList<Card> shuffled = new ArrayList<>();
         int deckSize = cards.size();
-        for (int i = 0; i<deckSize/2; i++){//if odd, otherDeck < cards
-           otherDeck.add(cards.get(0));
-           cards.remove(cards.get(0));
+        for (int k = 0; k<deckSize; k++){
+            int rand = (int) (Math.random()*cards.size());
+            shuffled.add(cards.get(rand));
+            cards.remove(rand);
         }
-        for (int i = 0; i<deckSize; i++){
-             if (i % 2 == 0){
-                 finalCards.add(cards.get(0));
-                 cards.remove(0);
-                 continue;
-             }
-             finalCards.add(otherDeck.get(0));
-             otherDeck.remove(0);
-        }
-return finalCards;
+        cards = shuffled;
     }
-    public void efficientShuffle(){
 
+    public void efficientSelectionShuffle(){
+        int deckSize = cards.size();
+        for (int i = deckSize-1; i>0; i--){
+            int rand = (int) (Math.random()*i);
+            Card temp = cards.get(i);
+            cards.set(i, cards.get(rand));
+            cards.set(rand, temp);
+        }
     }
     public Card deal(){
         if (isEmpty()){
@@ -69,6 +69,10 @@ return finalCards;
     }
     public boolean isEmpty(){
         return cards.isEmpty();
+    }
+    public Deck clone(){
+        ArrayList<Card> deckCards = new ArrayList<>(cards);
+        return new Deck(deckCards);
     }
 
 }
