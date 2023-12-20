@@ -7,12 +7,31 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.List;
 
 public class ElevensBoard {
     public final static int BOARD_HEIGHT = 3;
     public final static int BOARD_WIDTH = 3;
     public final static int BOARD_SIZE = BOARD_HEIGHT*BOARD_WIDTH;
     private final ArrayList<Integer> selectedCards = new ArrayList<>();
+    private boolean simulation =true;
+
+    public int getGamesPlayed() {
+        return gamesPlayed;
+    }
+
+    public boolean isSimulation() {
+        return simulation;
+    }
+
+    public int getGamesWon() {
+        return gamesWon;
+    }
+
+    private int gamesPlayed;
+    private int gamesWon;
+
+
 
     public final static Map<Integer, String> VALUE_TO_NAME = Map.of(
             1, "A",
@@ -33,9 +52,10 @@ public class ElevensBoard {
     private JFrame frame;
     private JPanel panel;
     JLabel cardsLeftInDeckLabel;
-    public ElevensBoard(Deck deck) {
+    public ElevensBoard(Deck deck, int gamesPlayed, int gamesWon)  {
 
-
+        this.gamesPlayed = gamesPlayed;
+        this.gamesWon = gamesWon;
         frame = new JFrame();
         panel = new JPanel(new GridLayout(3, 3));
         JPanel infoPanel = new JPanel(new BorderLayout());
@@ -85,9 +105,13 @@ public class ElevensBoard {
 
 
         cardsLeftInDeckLabel = new JLabel("Cards left in deck: " + deck.size());
+        JLabel gamesWonLabel = new JLabel("Games won: "+ gamesWon + "/" + gamesPlayed);
+        gamesWonLabel.setHorizontalAlignment(JLabel.CENTER);
         cardsLeftInDeckLabel.setHorizontalAlignment(JLabel.CENTER);
-        cardsLeftInDeckLabel.setBorder(new EmptyBorder(20, 0, 0, 0));
-        infoPanel.add(cardsLeftInDeckLabel);
+        cardsLeftInDeckLabel.setBorder(new EmptyBorder(20, 40, 0, 0));
+        gamesWonLabel.setBorder(new EmptyBorder(20, 0, 0, 40));
+        infoPanel.add(gamesWonLabel, BorderLayout.EAST);
+        infoPanel.add(cardsLeftInDeckLabel, BorderLayout.WEST);
 
 
         frame.setSize(960, 540);
@@ -95,6 +119,16 @@ public class ElevensBoard {
         frame.setLocationRelativeTo(null);
 //        frame.pack();
         frame.setVisible(true);
+        if (isSimulation()){
+            while (hasPairSum11(cardsInPlay, true) != null || hasJQK(cardsInPlay, true).size() == 3){
+                if (hasPairSum11(cardsInPlay, true) != null){
+                    processMove(hasPairSum11(cardsInPlay, true));
+                }else if (hasJQK(cardsInPlay, true).size() == 3){
+                    processMove(hasJQK(cardsInPlay, true));
+                }
+                System.out.println("Going");
+            }
+        }
     }
     private void dealMyCards(){
         for (int i = 0; i<BOARD_SIZE; i++){
@@ -172,23 +206,85 @@ private void setJText(JToggleButton button, Card card){
         }
         return false;
     }
-    public boolean hasJQK(Card[] cards){
+    public ArrayList<Integer> hasPairSum11(Card[] cards, boolean simulation){
+
+        for (int i = 0; i<cards.length-1; i++){
+            for (int k = 0; k<cards.length-1; k++){
+                if (k == i){continue;}
+                if (cards[i] != null && cards[k] != null) {
+                    if (cards[i].pointValue() + cards[k].pointValue() == 11){
+                        return new ArrayList<>(List.of(i, k));
+                    }
+                }
+            }
+
+        }
+        return null;
+    }
+    public ArrayList<Integer> hasJQK(Card[] cards, boolean simulation){
         boolean J = false;
         boolean Q = false;
         boolean K = false;
+        ArrayList<Integer> JKQIndexes = new ArrayList<>();
+
 
         for (int i = 0; i<cards.length; i++){
             if (cards[i] != null) {
                 if (cards[i].pointValue() == 21) {
+                    if (simulation && !J){
+                        JKQIndexes.add(i);
+                    }
                     J = true;
                 }
                 if (cards[i].pointValue() == 22) {
+                    if (simulation && !Q){
+                        JKQIndexes.add(i);
+                    }
                     Q = true;
                 }
                 if (cards[i].pointValue() == 23) {
+                    if (simulation && !K){
+                        JKQIndexes.add(i);
+                    }
                     K = true;
                 }
             }
+        }
+        return JKQIndexes;
+    }
+    public boolean hasJQK(Card[] cards){
+        boolean J = false;
+        boolean Q = false;
+        boolean K = false;
+        ArrayList<Integer> JKQIndexes = new ArrayList<>();
+
+
+        for (int i = 0; i<cards.length; i++){
+            if (cards[i] != null) {
+                if (cards[i].pointValue() == 21) {
+                    if (simulation && !J){
+                        JKQIndexes.add(i);
+                    }
+                    J = true;
+                }
+                if (cards[i].pointValue() == 22) {
+                    if (simulation && !Q){
+                        JKQIndexes.add(i);
+                    }
+                    Q = true;
+                }
+                if (cards[i].pointValue() == 23) {
+                    if (simulation && !K){
+                        JKQIndexes.add(i);
+                    }
+                    K = true;
+                }
+            }
+        }
+        if (J && Q && K){
+            try {
+                processMove(JKQIndexes);
+            }catch (Exception e){}
         }
         return J && Q && K;
     }

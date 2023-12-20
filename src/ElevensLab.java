@@ -3,7 +3,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class ElevensLab {
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
 
 
         ArrayList<Card> cards = new ArrayList<>();
@@ -48,7 +48,7 @@ public class ElevensLab {
 //        cards.add(new Card(23,  suits[2]));
         Deck deck =new Deck(cards);
 
-        ElevensBoard game = new ElevensBoard(deck);
+        ElevensBoard game = new ElevensBoard(deck, 0, 0);
         Scanner scanner = new Scanner(System.in);
         while (!game.gameIsWon() && game.anotherPlayIsPossible()){
             System.out.println(game);
