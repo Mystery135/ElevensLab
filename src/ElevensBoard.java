@@ -262,40 +262,27 @@ private void setJText(JToggleButton button, Card card){
         return JKQIndexes;
     }
     ArrayList<Integer> JKQIndexes;
-    public boolean hasJQK(Card[] cards){
-         boolean J = false;
-         boolean Q = false;
-         boolean K = false;
+    public boolean hasJQK(Card[] cards) {
+        boolean J = false;
+        boolean Q = false;
+        boolean K = false;
         JKQIndexes = new ArrayList<>();
 
-
-        for (int i = 0; i<cards.length; i++){
+        for (int i = 0; i < cards.length; i++) {
             if (cards[i] != null) {
                 if (cards[i].pointValue() == 21) {
-                    if (simulation && !J){
-                        JKQIndexes.add(i);
-                    }
+                    JKQIndexes.add(i);
                     J = true;
-                }
-                if (cards[i].pointValue() == 22) {
-                    if (simulation && !Q){
-                        JKQIndexes.add(i);
-                    }
+                } else if (cards[i].pointValue() == 22) {
+                    JKQIndexes.add(i);
                     Q = true;
-                }
-                if (cards[i].pointValue() == 23) {
-                    if (simulation && !K){
-                        JKQIndexes.add(i);
-                    }
+                } else if (cards[i].pointValue() == 23) {
+                    JKQIndexes.add(i);
                     K = true;
                 }
             }
         }
-        if (J && Q && K){
-            try {
-                processMove(JKQIndexes);
-            }catch (Exception e){}
-        }
+
         return J && Q && K;
     }
 //    public boolean isLegal(List<Integer> selectedCards) {
