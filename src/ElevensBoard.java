@@ -1,11 +1,6 @@
-import com.sun.nio.sctp.PeerAddressChangeNotification;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.lang.reflect.Array;
 import java.util.*;
 import java.util.List;
 
@@ -14,7 +9,7 @@ public class ElevensBoard {
     public final static int BOARD_WIDTH = 3;
     public final static int BOARD_SIZE = BOARD_HEIGHT*BOARD_WIDTH;
     private final ArrayList<Integer> selectedCards = new ArrayList<>();
-    private boolean simulation =true;
+    private boolean simulation = true;
 
     public int getGamesPlayed() {
         return gamesPlayed;
@@ -23,7 +18,9 @@ public class ElevensBoard {
     public boolean isSimulation() {
         return simulation;
     }
-
+    public void setSimulation(boolean simulation) {
+        this.simulation =simulation;
+    }
     public int getGamesWon() {
         return gamesWon;
     }
@@ -48,10 +45,27 @@ public class ElevensBoard {
         return frame;
     }
 
+    public void toggleSim(){
+        if (isSimulation()){
+            System.out.println(hasPairSum11(cardsInPlay));
+            System.out.println(Arrays.toString(cardsInPlay));
+            while (hasPairSum11(cardsInPlay, true) != null || hasJQK(cardsInPlay, true).size() == 3){
+                if (hasPairSum11(cardsInPlay, true) != null){
+                    processMove(hasPairSum11(cardsInPlay, true));
+                }else if (hasJQK(cardsInPlay, true).size() == 3){
+                    processMove(hasJQK(cardsInPlay, true));
+                }
+                System.out.println("Going");
+                System.out.println(gamesPlayed);
+            }
+        }
+    }
+
     private final ArrayList<JToggleButton> cardButtons = new ArrayList<>();
     private JFrame frame;
     private JPanel panel;
     JLabel cardsLeftInDeckLabel;
+    JButton doSimulationButton;
     public ElevensBoard(Deck deck, int gamesPlayed, int gamesWon)  {
 
         this.gamesPlayed = gamesPlayed;
@@ -89,10 +103,14 @@ public class ElevensBoard {
         System.out.println(deck);
 
         cardsInPlay = new Card[BOARD_SIZE];
-
         JButton button = new JButton("Remove selected cards");
         button.addActionListener(new RemoveCardEvent(this));
         button.setPreferredSize(new Dimension(100, 100));
+        doSimulationButton = new JButton("Solve this for me");
+        doSimulationButton.setSize(150,35);
+        doSimulationButton.addActionListener(new SimulationButtonEvent(doSimulationButton, this, button));
+        infoPanel.add(doSimulationButton, BorderLayout.CENTER);
+
         infoPanel.add(button, BorderLayout.NORTH);
 
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -119,16 +137,7 @@ public class ElevensBoard {
         frame.setLocationRelativeTo(null);
 //        frame.pack();
         frame.setVisible(true);
-        if (isSimulation()){
-            while (hasPairSum11(cardsInPlay, true) != null || hasJQK(cardsInPlay, true).size() == 3){
-                if (hasPairSum11(cardsInPlay, true) != null){
-                    processMove(hasPairSum11(cardsInPlay, true));
-                }else if (hasJQK(cardsInPlay, true).size() == 3){
-                    processMove(hasJQK(cardsInPlay, true));
-                }
-                System.out.println("Going");
-            }
-        }
+
     }
     private void dealMyCards(){
         for (int i = 0; i<BOARD_SIZE; i++){
@@ -193,8 +202,8 @@ private void setJText(JToggleButton button, Card card){
     }
     public boolean hasPairSum11(Card[] cards){
 
-        for (int i = 0; i<cards.length-1; i++){
-            for (int k = 0; k<cards.length-1; k++){
+        for (int i = 0; i<cards.length; i++){
+            for (int k = 0; k<cards.length; k++){
                 if (k == i){continue;}
                     if (cards[i] != null && cards[k] != null) {
                         if (cards[i].pointValue() + cards[k].pointValue() == 11){
@@ -208,8 +217,8 @@ private void setJText(JToggleButton button, Card card){
     }
     public ArrayList<Integer> hasPairSum11(Card[] cards, boolean simulation){
 
-        for (int i = 0; i<cards.length-1; i++){
-            for (int k = 0; k<cards.length-1; k++){
+        for (int i = 0; i<cards.length; i++){
+            for (int k = 0; k<cards.length; k++){
                 if (k == i){continue;}
                 if (cards[i] != null && cards[k] != null) {
                     if (cards[i].pointValue() + cards[k].pointValue() == 11){
@@ -252,11 +261,12 @@ private void setJText(JToggleButton button, Card card){
         }
         return JKQIndexes;
     }
+    ArrayList<Integer> JKQIndexes;
     public boolean hasJQK(Card[] cards){
-        boolean J = false;
-        boolean Q = false;
-        boolean K = false;
-        ArrayList<Integer> JKQIndexes = new ArrayList<>();
+         boolean J = false;
+         boolean Q = false;
+         boolean K = false;
+        JKQIndexes = new ArrayList<>();
 
 
         for (int i = 0; i<cards.length; i++){

@@ -13,14 +13,14 @@ public class Deck {
         return cards.toString();
     }
 
-//    public void shuffle() {
-//        for (int k = cards.size() - 1; k >= 0; k--) {
-//            int r = (int) (Math.random() * k);
-//            Card tmp = cards.get(r);
-//            cards.set(r, cards.get(k));
-//            cards.set(k, tmp);
-//        }
-//    }
+    public void efficientSelectionShuffle() {
+        for (int k = cards.size() - 1; k >= 0; k--) {
+            int r = (int) (Math.random() * k);
+            Card tmp = cards.get(r);
+            cards.set(r, cards.get(k));
+            cards.set(k, tmp);
+        }
+    }
     public void perfectShuffle(){
         ArrayList<Card> shuffled = new ArrayList<>();
         int deckSize = cards.size();
@@ -47,15 +47,15 @@ public class Deck {
         cards = shuffled;
     }
 
-    public void efficientSelectionShuffle(){
-        int deckSize = cards.size();
-        for (int i = deckSize-1; i>0; i--){
-            int rand = (int) (Math.random()*i);
-            Card temp = cards.get(i);
-            cards.set(i, cards.get(rand));
-            cards.set(rand, temp);
-        }
-    }
+//    public void efficientSelectionShuffle(){
+//        int deckSize = cards.size();
+//        for (int i = deckSize-1; i>0; i--){
+//            int rand = (int) (Math.random()*i);
+//            Card temp = cards.get(i);
+//            cards.set(i, cards.get(rand));
+//            cards.set(rand, temp);
+//        }
+//    }
     public Card deal(){
         if (isEmpty()){
             return null;
