@@ -12,7 +12,7 @@ public class ElevensLab {
 //        Random random = new Random();
         //i<2, j<2
         //i<suits.length, j<pointValues.length
-        for (int i = 0; i<suits.length; i++){
+        for (int i = 0; i< suits.length; i++){
             for (int j = 0; j<pointValues.length; j++){
 
                 //Shuffle testing
@@ -40,6 +40,8 @@ public class ElevensLab {
                 cards.add(new Card(pointValues[j],  suits[i]));
             }
         }
+//cards.add(new Card(pointValues[1], suits[1]));
+
 
 
 

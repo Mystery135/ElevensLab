@@ -10,8 +10,8 @@ public class SimulationButtonEvent implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        board.setSimulation(true);
-        board.toggleSim();
+        board.setSolve(true);
+        board.solve();
         simulationButton.setText("All possible moves done!");
         removeCards.setText("Start another game");
     }

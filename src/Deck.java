@@ -36,6 +36,24 @@ public class Deck {
             x+=2;
         }
     }
+        public void efficientSelectionShuffle1(){
+        int deckSize = cards.size();
+        for (int i = deckSize-1; i>0; i--){
+            int rand = (int) (Math.random()*i);
+            Card temp = cards.get(i);
+            cards.set(i, cards.get(rand));
+            cards.set(rand, temp);
+        }
+    }
+    public Card deal(){
+        if (isEmpty()){
+            return null;
+        }
+        discardedCards.add(cards.get(cards.size()-1));
+        cards.remove(cards.size()-1);
+        return discardedCards.get(discardedCards.size()-1);
+    }
+
     public void selectionShuffle(){
         ArrayList<Card> shuffled = new ArrayList<>();
         int deckSize = cards.size();
@@ -46,33 +64,15 @@ public class Deck {
         }
         cards = shuffled;
     }
-
-//    public void efficientSelectionShuffle(){
-//        int deckSize = cards.size();
-//        for (int i = deckSize-1; i>0; i--){
-//            int rand = (int) (Math.random()*i);
-//            Card temp = cards.get(i);
-//            cards.set(i, cards.get(rand));
-//            cards.set(rand, temp);
-//        }
-//    }
-    public Card deal(){
-        if (isEmpty()){
-            return null;
-        }
-        discardedCards.add(cards.get(cards.size()-1));
-        cards.remove(cards.size()-1);
-        return discardedCards.get(discardedCards.size()-1);
-    }
     public int size(){
         return cards.size();
     }
     public boolean isEmpty(){
         return cards.isEmpty();
     }
+
     public Deck clone(){
         ArrayList<Card> deckCards = new ArrayList<>(cards);
         return new Deck(deckCards);
     }
-
 }

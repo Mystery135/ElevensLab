@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Utils {
     public static String getCardSymbol(Card card){
-        Map<Integer, String > values = ElevensBoard.VALUE_TO_NAME;
+        Map<Integer, String > values = Constants.VALUE_TO_NAME;
         StringBuilder symbol = new StringBuilder();
         if (card == null){
             symbol.append("  ");

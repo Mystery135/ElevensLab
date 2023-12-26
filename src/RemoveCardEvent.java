@@ -33,7 +33,7 @@ public class RemoveCardEvent implements ActionListener {
             board.getPanel().setVisible(false);
             JLabel message = new JLabel("You won! All cards gone! Do you want to play again?", JLabel.CENTER);
             int choice = JOptionPane.showConfirmDialog(board.getFrame(), message, "Game Over!", JOptionPane.YES_NO_OPTION);
-            JOptionPane.showMessageDialog(board.getFrame(), message, "Game Won", JOptionPane.INFORMATION_MESSAGE);
+//            JOptionPane.showMessageDialog(board.getFrame(), message, "Game Won", JOptionPane.INFORMATION_MESSAGE);
 //            if (board.isSimulation()){choice = JOptionPane.YES_OPTION;}
             if (choice == JOptionPane.YES_OPTION){
                 board.getFrame().dispatchEvent(new WindowEvent(board.getFrame(), WindowEvent.WINDOW_CLOSING));

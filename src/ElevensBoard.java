@@ -9,17 +9,17 @@ public class ElevensBoard {
     public final static int BOARD_WIDTH = 3;
     public final static int BOARD_SIZE = BOARD_HEIGHT*BOARD_WIDTH;
     private final ArrayList<Integer> selectedCards = new ArrayList<>();
-    private boolean simulation = true;
+    private boolean solve = true;
 
     public int getGamesPlayed() {
         return gamesPlayed;
     }
 
-    public boolean isSimulation() {
-        return simulation;
+    public boolean isSolve() {
+        return solve;
     }
-    public void setSimulation(boolean simulation) {
-        this.simulation =simulation;
+    public void setSolve(boolean solve) {
+        this.solve = solve;
     }
     public int getGamesWon() {
         return gamesWon;
@@ -30,12 +30,7 @@ public class ElevensBoard {
 
 
 
-    public final static Map<Integer, String> VALUE_TO_NAME = Map.of(
-            1, "A",
-            21, "J",
-            22, "Q",
-            23, "K"
-    );
+
     private Card[] cardsInPlay;
     private Deck deck;
 
@@ -45,8 +40,8 @@ public class ElevensBoard {
         return frame;
     }
 
-    public void toggleSim(){
-        if (isSimulation()){
+    public void solve(){
+        if (isSolve()){
             System.out.println(hasPairSum11(cardsInPlay));
             System.out.println(Arrays.toString(cardsInPlay));
             while (hasPairSum11(cardsInPlay, true) != null || hasJQK(cardsInPlay, true).size() == 3){
@@ -106,10 +101,12 @@ public class ElevensBoard {
         JButton button = new JButton("Remove selected cards");
         button.addActionListener(new RemoveCardEvent(this));
         button.setPreferredSize(new Dimension(100, 100));
+        JPanel buttonPane = new JPanel(new FlowLayout());
         doSimulationButton = new JButton("Solve this for me");
-        doSimulationButton.setSize(150,35);
+        doSimulationButton.setPreferredSize(new Dimension(300, 30));
         doSimulationButton.addActionListener(new SimulationButtonEvent(doSimulationButton, this, button));
-        infoPanel.add(doSimulationButton, BorderLayout.CENTER);
+        buttonPane.add(doSimulationButton);
+        infoPanel.add(buttonPane, BorderLayout.CENTER);
 
         infoPanel.add(button, BorderLayout.NORTH);
 
@@ -123,11 +120,14 @@ public class ElevensBoard {
 
 
         cardsLeftInDeckLabel = new JLabel("Cards left in deck: " + deck.size());
-        JLabel gamesWonLabel = new JLabel("Games won: "+ gamesWon + "/" + gamesPlayed);
+        JLabel gamesWonLabel = new JLabel("Games won: "+ gamesWon + "/" + gamesPlayed + " (" + Math.round((float)gamesWon/gamesPlayed*10000)/100 + "%)");
+        JSeparator separator = new JSeparator();
+//        separator.
+//        infoPanel.add(separator, BorderLayout);
         gamesWonLabel.setHorizontalAlignment(JLabel.CENTER);
         cardsLeftInDeckLabel.setHorizontalAlignment(JLabel.CENTER);
-        cardsLeftInDeckLabel.setBorder(new EmptyBorder(20, 40, 0, 0));
-        gamesWonLabel.setBorder(new EmptyBorder(20, 0, 0, 40));
+        cardsLeftInDeckLabel.setBorder(new EmptyBorder(20, 40, 0, 40));
+        gamesWonLabel.setBorder(new EmptyBorder(20, 40, 0, 40));
         infoPanel.add(gamesWonLabel, BorderLayout.EAST);
         infoPanel.add(cardsLeftInDeckLabel, BorderLayout.WEST);
 
@@ -145,7 +145,7 @@ public class ElevensBoard {
         }
     }
     public boolean processMove(ArrayList<Integer> cardIndexes){
-        if (cardIndexes.size() > 4 || cardIndexes.size() < 2){
+        if (cardIndexes.size() > 3 || cardIndexes.size() < 2){
             return false;
         }
 
