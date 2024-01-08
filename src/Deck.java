@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+//Represents a real life deck. Can deal & shuffle.
 public class Deck {
     private ArrayList<Card> cards;
     private ArrayList<Card> discardedCards;
@@ -13,32 +13,10 @@ public class Deck {
         return cards.toString();
     }
 
-    public void efficientSelectionShuffle() {
-        for (int k = cards.size() - 1; k >= 0; k--) {
-            int r = (int) (Math.random() * k);
-            Card tmp = cards.get(r);
-            cards.set(r, cards.get(k));
-            cards.set(k, tmp);
-        }
-    }
-    public void perfectShuffle(){
-        ArrayList<Card> shuffled = new ArrayList<>();
-        int deckSize = cards.size();
-        for (int i = 0; i<deckSize/2; i++){
-            shuffled.add(cards.get(0));
-            cards.remove(cards.get(0));
-        }
-        int shuffledSize = shuffled.size();
-        int x = 0;
-        for (int i = 0; i<shuffledSize; i++){
-            cards.add(x, shuffled.get(0));
-            shuffled.remove(0);
-            x+=2;
-        }
-    }
-        public void efficientSelectionShuffle1(){
-        int deckSize = cards.size();
-        for (int i = deckSize-1; i>0; i--){
+
+    public void efficientSelectionShuffle(){
+        //Switches a card at a random location with the card a index i. Goes from cards.size to 0.
+        for (int i = cards.size()-1; i>=0; i--){
             int rand = (int) (Math.random()*i);
             Card temp = cards.get(i);
             cards.set(i, cards.get(rand));
@@ -54,16 +32,6 @@ public class Deck {
         return discardedCards.get(discardedCards.size()-1);
     }
 
-    public void selectionShuffle(){
-        ArrayList<Card> shuffled = new ArrayList<>();
-        int deckSize = cards.size();
-        for (int k = 0; k<deckSize; k++){
-            int rand = (int) (Math.random()*cards.size());
-            shuffled.add(cards.get(rand));
-            cards.remove(rand);
-        }
-        cards = shuffled;
-    }
     public int size(){
         return cards.size();
     }

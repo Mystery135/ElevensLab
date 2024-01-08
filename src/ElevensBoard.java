@@ -27,13 +27,8 @@ public class ElevensBoard {
 
     private int gamesPlayed;
     private int gamesWon;
-
-
-
-
     private Card[] cardsInPlay;
     private Deck deck;
-
     public JPanel getPanel() {
         return panel;
     }   public JFrame getFrame() {
@@ -42,16 +37,12 @@ public class ElevensBoard {
 
     public void solve(){
         if (isSolve()){
-            System.out.println(hasPairSum11(cardsInPlay));
-            System.out.println(Arrays.toString(cardsInPlay));
             while (hasPairSum11(cardsInPlay, true) != null || hasJQK(cardsInPlay, true).size() == 3){
                 if (hasPairSum11(cardsInPlay, true) != null){
                     processMove(hasPairSum11(cardsInPlay, true));
                 }else if (hasJQK(cardsInPlay, true).size() == 3){
                     processMove(hasJQK(cardsInPlay, true));
                 }
-                System.out.println("Going");
-                System.out.println(gamesPlayed);
             }
         }
     }
@@ -77,13 +68,10 @@ public class ElevensBoard {
 
 
         this.deck = deck;
-//        deck.perfectShuffle();
-//        deck.efficientSelectionShuffle();
 
 
         ArrayList<Card> first9;
         do {
-            System.out.println("SHUFFLED!");
             deck.efficientSelectionShuffle();
             first9 = new ArrayList<>();
             Deck clonedDeck = deck.clone();
@@ -93,9 +81,6 @@ public class ElevensBoard {
 
 
         } while (!hasJQK(first9.toArray(new Card[0])) && !hasPairSum11(first9.toArray(new Card[0])));
-
-
-        System.out.println(deck);
 
         cardsInPlay = new Card[BOARD_SIZE];
         JButton button = new JButton("Remove selected cards");
@@ -117,13 +102,8 @@ public class ElevensBoard {
             cardButtons.add(toggleButton);
             panel.add(toggleButton);
         }
-
-
         cardsLeftInDeckLabel = new JLabel("Cards left in deck: " + deck.size());
         JLabel gamesWonLabel = new JLabel("Games won: "+ gamesWon + "/" + gamesPlayed + " (" + Math.round((float)gamesWon/gamesPlayed*10000)/100 + "%)");
-        JSeparator separator = new JSeparator();
-//        separator.
-//        infoPanel.add(separator, BorderLayout);
         gamesWonLabel.setHorizontalAlignment(JLabel.CENTER);
         cardsLeftInDeckLabel.setHorizontalAlignment(JLabel.CENTER);
         cardsLeftInDeckLabel.setBorder(new EmptyBorder(20, 40, 0, 40));
@@ -285,10 +265,6 @@ private void setJText(JToggleButton button, Card card){
 
         return J && Q && K;
     }
-//    public boolean isLegal(List<Integer> selectedCards) {
-//        /* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
-//        return false;
-//    }
     public boolean gameIsWon() {
         if (deck.isEmpty()) {
             for (Object obj : cardsInPlay){

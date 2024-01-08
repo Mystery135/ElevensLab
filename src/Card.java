@@ -1,12 +1,7 @@
-import java.util.Objects;
-
+//Card contains just a point value and suit. It is also an immutable data carrier, so a record can be used.
 public record Card(int pointValue, String suit) {
-    public boolean equals(Card card){
-        return Objects.equals(card.suit, this.suit) && card.pointValue == this.pointValue;
-    }
     @Override
     public String toString(){
         return "Value: " + pointValue + " Suit: " + suit;
     }
-
 }
