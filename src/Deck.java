@@ -41,7 +41,7 @@ public class Deck {
     }
 
     public Deck clone(){
-        //makes a clone of this.
+        //makes a clone of this deck.
         ArrayList<Card> deckCards = new ArrayList<>(cards);
         return new Deck(deckCards);
     }
