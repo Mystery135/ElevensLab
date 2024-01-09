@@ -25,17 +25,17 @@ public class ElevensBoard {
         return gamesWon;
     }
 
-    private int gamesPlayed;
-    private int gamesWon;
-    private Card[] cardsInPlay;
-    private Deck deck;
+    private final int gamesPlayed;
+    private final int gamesWon;
+    private final Card[] cardsInPlay;
+    private final Deck deck;
     public JPanel getPanel() {
         return panel;
     }   public JFrame getFrame() {
         return frame;
     }
 
-    public void solve(){
+    public void solve(){//If solve is true, then
         if (isSolve()){
             while (hasPairSum11(cardsInPlay, true) != null || hasJQK(cardsInPlay, true).size() == 3){
                 if (hasPairSum11(cardsInPlay, true) != null){
@@ -48,10 +48,10 @@ public class ElevensBoard {
     }
 
     private final ArrayList<JToggleButton> cardButtons = new ArrayList<>();
-    private JFrame frame;
-    private JPanel panel;
+    private final JFrame frame;
+    private final JPanel panel;
     JLabel cardsLeftInDeckLabel;
-    JButton doSimulationButton;
+    JButton solveButton;
     public ElevensBoard(Deck deck, int gamesPlayed, int gamesWon)  {
 
         this.gamesPlayed = gamesPlayed;
@@ -66,9 +66,8 @@ public class ElevensBoard {
 
         frame.setTitle("Elevens");
 
-
+int x= (int) (Math.random()*100);
         this.deck = deck;
-
 
         ArrayList<Card> first9;
         do {
@@ -87,10 +86,10 @@ public class ElevensBoard {
         button.addActionListener(new RemoveCardEvent(this));
         button.setPreferredSize(new Dimension(100, 100));
         JPanel buttonPane = new JPanel(new FlowLayout());
-        doSimulationButton = new JButton("Solve this for me");
-        doSimulationButton.setPreferredSize(new Dimension(300, 30));
-        doSimulationButton.addActionListener(new SimulationButtonEvent(doSimulationButton, this, button));
-        buttonPane.add(doSimulationButton);
+        solveButton = new JButton("Solve this for me");
+        solveButton.setPreferredSize(new Dimension(300, 30));
+        solveButton.addActionListener(new SimulationButtonEvent(solveButton, this, button));
+        buttonPane.add(solveButton);
         infoPanel.add(buttonPane, BorderLayout.CENTER);
 
         infoPanel.add(button, BorderLayout.NORTH);
@@ -119,11 +118,7 @@ public class ElevensBoard {
         frame.setVisible(true);
 
     }
-    private void dealMyCards(){
-        for (int i = 0; i<BOARD_SIZE; i++){
-            cardsInPlay[i] = deck.deal();
-        }
-    }
+
     public boolean processMove(ArrayList<Integer> cardIndexes){
         if (cardIndexes.size() > 3 || cardIndexes.size() < 2){
             return false;
@@ -142,7 +137,7 @@ public class ElevensBoard {
             } else {
                 return false;
             }
-        }else if (cardIndexes.size() == 3){
+        }else {//cardIndexes.size() == 3
             if (cardsInPlay[cardIndexes.get(0)] == null || cardsInPlay[cardIndexes.get(1)] == null || cardsInPlay[cardIndexes.get(2)] == null){
                 return false;
             }

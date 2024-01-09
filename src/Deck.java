@@ -24,6 +24,7 @@ public class Deck {
         }
     }
     public Card deal(){
+        //Adds cards to the discardedCards arraylist and removes cards from the cards arraylist.
         if (isEmpty()){
             return null;
         }
@@ -40,6 +41,7 @@ public class Deck {
     }
 
     public Deck clone(){
+        //makes a clone of this.
         ArrayList<Card> deckCards = new ArrayList<>(cards);
         return new Deck(deckCards);
     }
