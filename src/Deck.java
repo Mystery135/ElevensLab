@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 //Represents a real life deck. Can deal & shuffle.
 public class Deck {
-    private ArrayList<Card> cards;
-    private ArrayList<Card> discardedCards;
+    private final ArrayList<Card> cards;
+    private final ArrayList<Card> discardedCards;
 
     public Deck(ArrayList<Card> cards){
         this.discardedCards = new ArrayList<>();
@@ -15,7 +15,7 @@ public class Deck {
 
 
     public void efficientSelectionShuffle(){
-        //Switches a card at a random location with the card a index i. Goes from cards.size to 0.
+        //Switches a card at a random location with the card an index i. Goes from cards.size to 0.
         for (int i = cards.size()-1; i>=0; i--){
             int rand = (int) (Math.random()*i);
             Card temp = cards.get(i);
@@ -40,6 +40,9 @@ public class Deck {
         return cards.isEmpty();
     }
 
+
+    //TODO: Fix warning
+    @Override
     public Deck clone(){
         //makes a clone of this deck.
         ArrayList<Card> deckCards = new ArrayList<>(cards);

@@ -2,10 +2,10 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//Called when the a card is clicked.
+//Called when a card is clicked.
 public class SelectCardEvent implements ActionListener {
-    private ElevensBoard board;
-    private int index;
+    private final ElevensBoard board;
+    private final int index;
     public SelectCardEvent(ElevensBoard board, int index){
         this.board = board;
         this.index = index;

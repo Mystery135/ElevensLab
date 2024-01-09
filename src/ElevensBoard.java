@@ -118,7 +118,7 @@ public class ElevensBoard {
 
     //Processes a game move given in an arraylist format.
     public boolean processMove(ArrayList<Integer> cardIndexes){
-        //Move has involve either 2 or 3 cards
+        //Move has involved either 2 or 3 cards
         if (cardIndexes.size() > 3 || cardIndexes.size() < 2){
             return false;
         }
@@ -186,7 +186,7 @@ private void setJText(JToggleButton button, Card card){
         return false;
     }
 
-    //loops through all possible pairs of cards to find cards that sum to 11. If there any, return the cards.
+    //loops through all possible pairs of cards to find cards that sum to 11. If there are any, return the cards.
     public ArrayList<Integer> getPairSum11(Card[] cards){
         for (int i = 0; i < cards.length - 1; i++) {
             for (int k = i + 1; k < cards.length; k++) {

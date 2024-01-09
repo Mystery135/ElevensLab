@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class ElevensLab {
     public static void main(String[] args)  {
         //Creates a deck of cards & a new board

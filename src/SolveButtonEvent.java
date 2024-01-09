@@ -4,9 +4,9 @@ import java.awt.event.ActionListener;
 
 //Called when the "solve this for me" button is clicked.
 public class SolveButtonEvent implements ActionListener {
-    private ElevensBoard board;
-    private JButton removeCards;
-    private JButton simulationButton;
+    private final ElevensBoard board;
+    private final JButton removeCards;
+    private final JButton simulationButton;
     public SolveButtonEvent(JButton simulationButton, ElevensBoard board, JButton removeCards){this.simulationButton = simulationButton; this.board = board; this.removeCards = removeCards;}
 
 

@@ -6,7 +6,7 @@ import java.awt.event.WindowEvent;
 
 //Called when the "remove selected cards" button is clicked.
 public class RemoveCardEvent implements ActionListener {
-    private ElevensBoard board;
+    private final ElevensBoard board;
     public RemoveCardEvent(ElevensBoard board){
         this.board = board;
     }
