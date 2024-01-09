@@ -1,6 +1,9 @@
 import java.util.*;
 
 public class Utils {
+
+
+    //Converts a cards' instance variables into more readable symbols.
     public static String getCardSymbol(Card card){
         Map<Integer, String > values = Constants.VALUE_TO_NAME;
         StringBuilder symbol = new StringBuilder();
@@ -33,7 +36,10 @@ public class Utils {
         }
         return symbol.toString();
     }
-public static ArrayList<Card> createRandCardArrayList(){
+
+
+    //Creates an arraylist of 52 cards
+public static ArrayList<Card> createCardArrayList(){
     ArrayList<Card> cards = new ArrayList<>();
     String[] suits = new String[]{"Hearts", "Diamonds", "Spades", "Diamonds"};
     int[] pointValues = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 21, 22, 23};

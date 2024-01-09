@@ -43,11 +43,11 @@ public class ElevensBoard {
 
     public void solve(){//If solve is true, then do moves until there is none to make.
         if (isSolve()){
-            while (hasPairSum11(cardsInPlay, true) != null || hasJQK(cardsInPlay, true).size() == 3){
-                if (hasPairSum11(cardsInPlay, true) != null){
-                    processMove(hasPairSum11(cardsInPlay, true));
-                }else if (hasJQK(cardsInPlay, true).size() == 3){
-                    processMove(hasJQK(cardsInPlay, true));
+            while (getPairSum11(cardsInPlay) != null || getJQK(cardsInPlay) != null){
+                if (getPairSum11(cardsInPlay) != null){
+                    processMove(getPairSum11(cardsInPlay));
+                }else if (getJQK(cardsInPlay) != null){
+                    processMove(getJQK(cardsInPlay));
                 }
             }
         }
@@ -74,9 +74,7 @@ public class ElevensBoard {
             for (int i = 0; i < 9; i++) {
                 first9.add(clonedDeck.deal());
             }
-
-
-        } while (!hasJQK(first9.toArray(new Card[0])) && !hasPairSum11(first9.toArray(new Card[0])));
+        } while (getJQK(first9.toArray(new Card[0])) == null && getPairSum11(first9.toArray(new Card[0])) == null);
 
         //Adds buttons to the window
         cardsInPlay = new Card[BOARD_SIZE];
@@ -86,7 +84,7 @@ public class ElevensBoard {
         JPanel buttonPane = new JPanel(new FlowLayout());
         solveButton = new JButton("Solve this for me");
         solveButton.setPreferredSize(new Dimension(300, 30));
-        solveButton.addActionListener(new SimulationButtonEvent(solveButton, this, button));
+        solveButton.addActionListener(new SolveButtonEvent(solveButton, this, button));
         buttonPane.add(solveButton);
         infoPanel.add(buttonPane, BorderLayout.CENTER);
         infoPanel.add(button, BorderLayout.NORTH);
@@ -116,6 +114,7 @@ public class ElevensBoard {
         frame.setVisible(true);
 
     }
+
 
     //Processes a game move given in an arraylist format.
     public boolean processMove(ArrayList<Integer> cardIndexes){
@@ -147,7 +146,7 @@ public class ElevensBoard {
             }
 
             //Checks if the three cards selected are J, Q, and K. If they are, those cards are replaced with new ones.
-            if (hasJQK(new Card[]{cardsInPlay[cardIndexes.get(0)], cardsInPlay[cardIndexes.get(1)], cardsInPlay[cardIndexes.get(2)]})) {
+            if (getJQK(new Card[]{cardsInPlay[cardIndexes.get(0)], cardsInPlay[cardIndexes.get(1)], cardsInPlay[cardIndexes.get(2)]}) != null) {
                 cardsInPlay[cardIndexes.get(0)] = deck.deal();
                 setJText(cardButtons.get(cardIndexes.get(0)), cardsInPlay[cardIndexes.get(0)]);
 
@@ -176,35 +175,21 @@ private void setJText(JToggleButton button, Card card){
 
 //Checks if another play is possible using hasPairSum11 & hasJQK
     public boolean anotherPlayIsPossible() {
-        if (hasPairSum11(cardsInPlay)){
+        if (getPairSum11(cardsInPlay) != null){
+            System.out.println(getPairSum11(cardsInPlay));
             return true;
         }
-        if (hasJQK(cardsInPlay)){
+        if (getJQK(cardsInPlay) != null){
+            System.out.println(getJQK(cardsInPlay));
             return true;
         }
         return false;
     }
 
-
-    //
-    public boolean hasPairSum11(Card[] cards) {
+    //loops through all possible pairs of cards to find cards that sum to 11. If there any, return the cards.
+    public ArrayList<Integer> getPairSum11(Card[] cards){
         for (int i = 0; i < cards.length - 1; i++) {
             for (int k = i + 1; k < cards.length; k++) {
-                if (cards[i] != null && cards[k] != null) {
-                    if (cards[i].pointValue() + cards[k].pointValue() == 11) {
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public ArrayList<Integer> hasPairSum11(Card[] cards, boolean simulation){
-
-        for (int i = 0; i<cards.length; i++){
-            for (int k = 0; k<cards.length; k++){
-                if (k == i){continue;}
                 if (cards[i] != null && cards[k] != null) {
                     if (cards[i].pointValue() + cards[k].pointValue() == 11){
                         return new ArrayList<>(List.of(i, k));
@@ -215,7 +200,9 @@ private void setJText(JToggleButton button, Card card){
         }
         return null;
     }
-    public ArrayList<Integer> hasJQK(Card[] cards, boolean simulation){
+
+    //Loops through cards to see if it contains JQK. If it does, return those cards.
+    public ArrayList<Integer> getJQK(Card[] cards){
         boolean J = false;
         boolean Q = false;
         boolean K = false;
@@ -225,51 +212,30 @@ private void setJText(JToggleButton button, Card card){
         for (int i = 0; i<cards.length; i++){
             if (cards[i] != null) {
                 if (cards[i].pointValue() == 21) {
-                    if (simulation && !J){
+                    if (!J){
                         JKQIndexes.add(i);
                     }
                     J = true;
                 }
                 if (cards[i].pointValue() == 22) {
-                    if (simulation && !Q){
+                    if (!Q){
                         JKQIndexes.add(i);
                     }
                     Q = true;
                 }
                 if (cards[i].pointValue() == 23) {
-                    if (simulation && !K){
+                    if (!K){
                         JKQIndexes.add(i);
                     }
                     K = true;
                 }
             }
         }
-        return JKQIndexes;
+        if (J && Q && K){return JKQIndexes;}
+        else{return null;}
     }
-    ArrayList<Integer> JKQIndexes;
-    public boolean hasJQK(Card[] cards) {
-        boolean J = false;
-        boolean Q = false;
-        boolean K = false;
-        JKQIndexes = new ArrayList<>();
 
-        for (int i = 0; i < cards.length; i++) {
-            if (cards[i] != null) {
-                if (cards[i].pointValue() == 21) {
-                    JKQIndexes.add(i);
-                    J = true;
-                } else if (cards[i].pointValue() == 22) {
-                    JKQIndexes.add(i);
-                    Q = true;
-                } else if (cards[i].pointValue() == 23) {
-                    JKQIndexes.add(i);
-                    K = true;
-                }
-            }
-        }
-
-        return J && Q && K;
-    }
+    //Checks if game is won. Game is won when deck is empty and all cards in play are null.
     public boolean gameIsWon() {
         if (deck.isEmpty()) {
             for (Object obj : cardsInPlay){
@@ -281,24 +247,6 @@ private void setJText(JToggleButton button, Card card){
         }
         return false;
     }
-    @Override
-    public String toString(){
-        int x = 0;
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i<cardsInPlay.length; i++){
-            builder.append(Utils.getCardSymbol(cardsInPlay[i]));
-            x++;
-            if (x == BOARD_WIDTH){
-                x = 0;
-                builder.append("\n");
-            }else{
-                builder.append(" ");
-            }
-        }
-        return builder.toString();
-    }
-
-
 
     public ArrayList<Integer> getSelectedCards() {
         return selectedCards;
