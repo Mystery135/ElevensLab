@@ -18,21 +18,12 @@ public class Utils {
         } else{
             symbol.append(card.pointValue());
         }
-        switch (card.suit().toLowerCase()){
-            case "clubs":
-                symbol.append("♣");
-                break;
-            case "spades":
-                symbol.append("♠");
-                break;
-            case "hearts":
-                symbol.append("❤");
-                break;
-            case "diamonds":
-                symbol.append("♦");
-                break;
-            case "":
-                symbol.append(" ");
+        switch (card.suit().toLowerCase()) {
+            case "clubs" -> symbol.append("♣");
+            case "spades" -> symbol.append("♠");
+            case "hearts" -> symbol.append("❤");
+            case "diamonds" -> symbol.append("♦");
+            case "" -> symbol.append(" ");
         }
         return symbol.toString();
     }
@@ -43,9 +34,9 @@ public static ArrayList<Card> createCardArrayList(){
     ArrayList<Card> cards = new ArrayList<>();
     String[] suits = new String[]{"Hearts", "Diamonds", "Spades", "Diamonds"};
     int[] pointValues = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 21, 22, 23};
-    for (int i = 0; i<suits.length; i++){
-        for (int j = 0; j<pointValues.length; j++){
-            cards.add(new Card(pointValues[j],  suits[i]));
+    for (String suit : suits) {
+        for (int pointValue : pointValues) {
+            cards.add(new Card(pointValue, suit));
         }
     }
     return cards;

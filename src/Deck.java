@@ -41,7 +41,6 @@ public class Deck {
     }
 
 
-    //TODO: Fix warning
     @Override
     public Deck clone(){
         //makes a clone of this deck.

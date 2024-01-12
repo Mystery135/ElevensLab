@@ -176,14 +176,9 @@ private void setJText(JToggleButton button, Card card){
 //Checks if another play is possible using hasPairSum11 & hasJQK
     public boolean anotherPlayIsPossible() {
         if (getPairSum11(cardsInPlay) != null){
-            System.out.println(getPairSum11(cardsInPlay));
             return true;
         }
-        if (getJQK(cardsInPlay) != null){
-            System.out.println(getJQK(cardsInPlay));
-            return true;
-        }
-        return false;
+        return getJQK(cardsInPlay) != null;
     }
 
     //loops through all possible pairs of cards to find cards that sum to 11. If there are any, return the cards.
