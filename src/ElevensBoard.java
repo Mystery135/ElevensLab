@@ -52,7 +52,7 @@ public class ElevensBoard {
             }
         }
     }
-    //Initializes the game window &b adds buttons
+    //Initializes the game window & adds buttons
     public ElevensBoard(Deck deck, int gamesPlayed, int gamesWon)  {
         this.gamesPlayed = gamesPlayed;
         this.gamesWon = gamesWon;
