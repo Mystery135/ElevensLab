@@ -118,12 +118,10 @@ public class ElevensBoard {
 
     //Processes a game move given in an arraylist format.
     public boolean processMove(ArrayList<Integer> cardIndexes){
-        //Move has involved either 2 or 3 cards
         if (cardIndexes.size() > 3 || cardIndexes.size() < 2){
             return false;
         }
-
-
+        //Move has involved either 2 or 3 cards
         if (cardIndexes.size() == 2) {
             if (cardsInPlay[cardIndexes.get(0)] == null || cardsInPlay[cardIndexes.get(1)] == null){
                 return false;
